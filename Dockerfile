@@ -84,7 +84,7 @@ FROM yarn-base as yarn-deps
 
 RUN --mount=type=cache,target=/usr/local/share/.cache \
   --mount=type=cache,target=/root/.cache/Cypress \
-  yarn install --frozen-lockfile --quiet
+  yarn install --frozen-lockfile --quiet --prefer-offline
 
 # ---------------------------------------------------------
 # Yarn dependencies
@@ -93,7 +93,7 @@ FROM yarn-base as yarn-deps-prod
 
 RUN --mount=type=cache,target=/usr/local/share/.cache \
   --mount=type=cache,target=/root/.cache/Cypress \
-  yarn install --production --frozen-lockfile --quiet
+  yarn install --production --frozen-lockfile --quiet --prefer-offline
 
 # ---------------------------------------------------------
 # Builder with source code
