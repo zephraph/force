@@ -17,6 +17,7 @@ import { orderRoutes } from "v2/Apps/Order/orderRoutes"
 import { purchaseRoutes } from "v2/Apps/Purchase/purchaseRoutes"
 import { searchRoutes } from "v2/Apps/Search/searchRoutes"
 // import { showRoutes } from "v2/Apps/Show/showRoutes"
+import { showsRoutes } from "v2/Apps/Shows/showsRoutes"
 import { viewingRoomRoutes } from "./ViewingRoom/viewingRoomRoutes"
 import { auctionsRoutes } from "./Auctions/auctionsRoutes"
 
@@ -76,6 +77,9 @@ export function getAppRoutes(): RouteConfig[] {
     // {
     //   routes: showRoutes,
     // },
+    {
+      routes: showsRoutes,
+    },
     {
       routes: viewingRoomRoutes,
     },
