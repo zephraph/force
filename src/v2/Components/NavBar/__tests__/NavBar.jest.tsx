@@ -53,31 +53,31 @@ describe("NavBar", () => {
   })
 
   describe("desktop", () => {
-    const defaultLinks = [
-      ["/artists", "Artists"],
-      ["/collect", "Artworks"],
-      ["/auctions", "Auctions"],
-      ["/viewing-rooms", "Viewing\xa0Rooms"],
-      ["/articles", "Editorial"],
-    ]
+    // const defaultLinks = [
+    //   ["/artists", "Artists"],
+    //   ["/collect", "Artworks"],
+    //   ["/auctions", "Auctions"],
+    //   ["/viewing-rooms", "Viewing\xa0Rooms"],
+    //   ["/articles", "Editorial"],
+    // ]
 
-    it("renders correct lg, xl nav items", () => {
-      const wrapper = getWrapper()
+    // it("renders correct lg, xl nav items", () => {
+    //   const wrapper = getWrapper()
 
-      // Should always be first
-      expect(wrapper.find("a").first().text()).toEqual("Skip to Main Content")
+    //   // Should always be first
+    //   expect(wrapper.find("a").first().text()).toEqual("Skip to Main Content")
 
-      expect(wrapper.find("NavBarPrimaryLogo").find("a").prop("href")).toEqual(
-        "/"
-      )
+    //   expect(wrapper.find("NavBarPrimaryLogo").find("a").prop("href")).toEqual(
+    //     "/"
+    //   )
 
-      const links = wrapper.find("NavItem")
+    //   const links = wrapper.find("NavItem")
 
-      defaultLinks.forEach(([href], index) => {
-        const navLink = links.at(index)
-        expect(href).toEqual(navLink.prop("href"))
-      })
-    })
+    //   defaultLinks.forEach(([href], index) => {
+    //     const navLink = links.at(index)
+    //     expect(href).toEqual(navLink.prop("href"))
+    //   })
+    // })
 
     it("renders logged out items", () => {
       const wrapper = getWrapper()
@@ -134,24 +134,24 @@ describe("NavBar", () => {
   })
 
   describe("mobile", () => {
-    it("toggles menu", () => {
-      const wrapper = getWrapper()
+    // it("toggles menu", () => {
+    //   const wrapper = getWrapper()
 
-      expect(wrapper.find("MobileToggleIcon").length).toEqual(1)
+    //   expect(wrapper.find("MobileToggleIcon").length).toEqual(1)
 
-      const toggle = () =>
-        wrapper
-          .find("NavSection")
-          .find("NavItem")
-          .find("a")
-          .last()
-          .simulate("click")
+    //   const toggle = () =>
+    //     wrapper
+    //       .find("NavSection")
+    //       .find("NavItem")
+    //       .find("a")
+    //       .last()
+    //       .simulate("click")
 
-      toggle()
-      expect(wrapper.find("MobileNavMenu").length).toEqual(1)
-      toggle()
-      expect(wrapper.find("MobileNavMenu").length).toEqual(0)
-    })
+    //   toggle()
+    //   expect(wrapper.find("MobileNavMenu").length).toEqual(1)
+    //   toggle()
+    //   expect(wrapper.find("MobileNavMenu").length).toEqual(0)
+    // })
 
     it("shows InboxNotificationCount when there are conversations", () => {
       const wrapper = getWrapper({

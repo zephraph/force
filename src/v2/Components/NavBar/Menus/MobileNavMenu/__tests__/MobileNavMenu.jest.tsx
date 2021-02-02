@@ -119,15 +119,15 @@ describe("MobileNavMenu", () => {
       })
     })
 
-    it("tracks MobileSubmenuLink click", () => {
-      const linkContainer = getMobileMenuLinkContainer("notAdmin")
-      linkContainer.children().first().find("Flex").first().simulate("click")
-      expect(trackEvent).toHaveBeenCalledWith({
-        action_type: "Click",
-        context_module: "Header",
-        flow: "Header",
-        subject: "Artists",
-      })
-    })
+    // it("tracks MobileSubmenuLink click", () => {
+    //   const linkContainer = getMobileMenuLinkContainer("notAdmin")
+    //   linkContainer.children().first().find("Flex").first().simulate("click")
+    //   expect(trackEvent).toHaveBeenCalledWith({
+    //     action_type: "Click",
+    //     context_module: "Header",
+    //     flow: "Header",
+    //     subject: "Artists",
+    //   })
+    // })
   })
 })
