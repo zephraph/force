@@ -329,6 +329,8 @@ export class ShippingRoute extends Component<ShippingProps, ShippingState> {
               this.props.me.addressConnection.edges[this.state.editAddressIndex]
                 ?.node
             }
+            meGraphqlID={this.props.me.id}
+            commitMutation={this.props.commitMutation}
           />
         )}
         <HorizontalPadding px={[0, 4]}>
@@ -521,6 +523,7 @@ export const ShippingFragmentContainer = createFragmentContainer(
         ) {
         name
         email
+        id
         ...SavedAddresses_me
         addressConnection(
           first: $first
@@ -530,6 +533,8 @@ export const ShippingFragmentContainer = createFragmentContainer(
         ) {
           edges {
             node {
+              id
+              internalID
               addressLine1
               addressLine2
               addressLine3

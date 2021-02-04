@@ -1,37 +1,123 @@
 import React from "react"
 import { Button, Input, Modal, Spacer } from "@artsy/palette"
-import { SavedAddressType } from "../Utils/shippingAddressUtils"
+import {
+  convertShippingAddressToMutationInput,
+  SavedAddressType,
+} from "../Utils/shippingAddressUtils"
 import { useFormik } from "formik"
-import { validateAddress, validatePhoneNumber } from "../Utils/formValidators"
+import {
+  removeEmptyKeys,
+  validateAddress,
+  validatePhoneNumber,
+} from "../Utils/formValidators"
 import { CountrySelect } from "v2/Components/CountrySelect"
+import { graphql } from "react-relay"
+import { AddressModalMutation } from "v2/__generated__/AddressModalMutation.graphql"
+import { CommitMutation } from "../Utils/commitMutation"
+import { ConnectionHandler } from "relay-runtime"
 
 interface Props {
   show: boolean
   onClose: () => void
   address: SavedAddressType
+  commitMutation: CommitMutation
+  meGraphqlID: string // FIXME:
 }
 
-// type AddressAttrubytes = keyof SavedAddressType
-// type AddressErrors = Record<AddressAttrubytes, string>
-
-const saveAddress = values => {
-  // TODO: call update mutation
+const saveAddress = async (
+  commitMutation: CommitMutation,
+  userAddressID: string,
+  values: any,
+  meGraphqlID: string,
+  onClose: () => null
+) => {
   console.log(values)
+  const useArtrubutes = convertShippingAddressToMutationInput(values)
+
+  // TODO: add type <UpdateUserAddressMutation>
+  const result = await commitMutation<AddressModalMutation>({
+    variables: {
+      input: {
+        userAddressID: userAddressID,
+        attributes: useArtrubutes, // TODO: fixme
+      },
+    },
+    mutation: graphql`
+      mutation AddressModalMutation($input: UpdateUserAddressInput!) {
+        updateUserAddress(input: $input) {
+          userAddressOrErrors {
+            ... on UserAddress {
+              id
+              internalID
+              name
+              addressLine1
+              isDefault
+              phoneNumber
+              city
+              region
+              postalCode
+            }
+            ... on Errors {
+              errors {
+                code
+                message
+              }
+            }
+          }
+        }
+      }
+    `,
+    updater: (store, data) => {
+      console.log("do nothing")
+      // const mutationResponse = store.getRootField("updateUserAddress")
+      // const addressOrError = mutationResponse.getLinkedRecord(
+      //   "userAddressOrErrors"
+      // )
+      // const meStore = store.get(meGraphqlID)
+      // const addresses = ConnectionHandler.getConnection(
+      //   meStore,
+      //   "SavedAddresses_addressConnection"
+      // )
+      // const edge = ConnectionHandler.createEdge(
+      //   store,
+      //   addresses,
+      //   addressOrError,
+      //   "UserAddressEdge"
+      // )
+      // ConnectionHandler.createEdge(store, addresses, edge, "UserAddressEdge")
+    },
+  })
+  onClose()
 }
 
 const validateor = (values: any) => {
   const validationResult = validateAddress(values)
   const phoneValidation = validatePhoneNumber(values.phoneNumber)
-  return Object.assign({}, validationResult.errors, {
+  const errors = Object.assign({}, validationResult.errors, {
     phoneNumber: phoneValidation.error,
   })
+  return removeEmptyKeys(errors)
 }
 
-export const AddressModal: React.FC<Props> = ({ show, onClose, address }) => {
+export const AddressModal: React.FC<Props> = ({
+  show,
+  onClose,
+  address,
+  commitMutation,
+  meGraphqlID,
+}) => {
   const formik = useFormik({
     initialValues: address,
     validate: validateor,
-    onSubmit: saveAddress,
+    onSubmit: values => {
+      saveAddress(
+        commitMutation,
+        address.internalID,
+        values,
+        meGraphqlID,
+        onClose
+      )
+    },
   })
   return (
     <Modal title="Edit address" show={show} onClose={onClose}>

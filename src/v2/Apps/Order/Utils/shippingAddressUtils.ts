@@ -2,6 +2,7 @@ import { emptyAddress } from "v2/Components/AddressForm"
 import { Shipping_me } from "v2/__generated__/Shipping_me.graphql"
 import { Shipping_order } from "v2/__generated__/Shipping_order.graphql"
 import { pick, omit } from "lodash"
+import { UserAddressAttributes } from "v2/__generated__/AddressModalMutation.graphql"
 
 export type SavedAddressType = Shipping_me["addressConnection"]["edges"][number]["node"]
 
@@ -59,5 +60,11 @@ export const startingAddress = (me: Shipping_me, order: Shipping_order) => {
 export const convertShippingAddressForExchange = (
   address: SavedAddressType
 ): Omit<SavedAddressType, "addressLine3" | "isDefault"> => {
-  return omit(address, ["isDefault", "addressLine3"])
+  return omit(address, ["id", "isDefault", "internalID", "addressLine3"])
+}
+
+export const convertShippingAddressToMutationInput = (
+  address: SavedAddressType
+): UserAddressAttributes => {
+  return omit(address, ["isDefault", "internalID", "id"])
 }

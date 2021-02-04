@@ -70,6 +70,8 @@ const testMe: ShippingTestQueryRawResponse["me"] = {
     edges: [
       {
         node: {
+          id: "foo",
+          internalID: "1",
           addressLine1: "1 Main St",
           addressLine2: "",
           addressLine3: "",
@@ -85,6 +87,8 @@ const testMe: ShippingTestQueryRawResponse["me"] = {
       },
       {
         node: {
+          id: "foo",
+          internalID: "2",
           addressLine1: "401 Broadway",
           addressLine2: "Floor 25",
           addressLine3: "",
