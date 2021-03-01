@@ -210,7 +210,8 @@ export class ShippingRoute extends Component<ShippingProps, ShippingState> {
             message => {
               logger.error(message)
             }
-          }
+          },
+          this.props.me
         )
       }
 
