@@ -1,8 +1,74 @@
 import { graphql } from "react-relay"
 import { SavedAddressesFragmentContainer } from "../SavedAddresses"
 import { setupTestWrapper } from "v2/DevTools/setupTestWrapper"
+import { Button } from "@artsy/palette"
+import { AddressModal } from "v2/Apps/Order/Components/AddressModal"
 
 jest.unmock("react-relay")
+
+let wrapper
+beforeEach(() => {
+  wrapper = getWrapper({
+    Me: () => ({
+      addressConnection: mockAddressConnection,
+    }),
+  })
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+})
+
+describe("SavedAddress button interactions", () => {
+  it("renders modal when button is clicked", () => {
+    const button = wrapper.find(Button)
+    const modal = wrapper.find(AddressModal)
+
+    expect(modal).toHaveLength(0)
+    button.props().onClick()
+
+    setTimeout(() => {
+      expect(modal).toHaveLength(1)
+    }, 0)
+  })
+
+  it("opens Create Address modal when as expected", () => {
+    const button = wrapper.find(Button)
+    const modal = wrapper.find(AddressModal)
+
+    expect(modal).toHaveLength(0)
+    button.props().onClick()
+
+    setTimeout(() => {
+      expect(modal.props().modalDetails).toBe({
+        addressModalTitle: "Add new address",
+        addressModalAction: "createUserAddress",
+      })
+    }, 0)
+  })
+})
+
+describe("SavedAddress", () => {
+  it("renders radio buttons with addresses", () => {
+    const radios = wrapper.find("Radio")
+
+    expect(radios.length).toBe(3)
+    expect(radios.map(radio => radio.props().value)).toEqual([
+      "0",
+      "1",
+      "NEW_ADDRESS",
+    ])
+    expect(radios.map(radio => radio.props().selected)).toEqual([
+      false,
+      true,
+      false,
+    ])
+    expect(radios.map(radio => radio.text())).toEqual([
+      "Test Name1 Main StMadrid, Spain, 28001555-555-5555Edit",
+      "Test Name401 BroadwayFloor 25New York, NY, USA, 10013422-424-4242Edit",
+      "Add a new shipping address",
+    ])
+  })
+})
 
 const mockAddressConnection = {
   edges: [
@@ -46,35 +112,4 @@ const { getWrapper } = setupTestWrapper({
       }
     }
   `,
-})
-
-describe("SavedAddress", () => {
-  let wrapper
-  beforeEach(() => {
-    wrapper = getWrapper({
-      Me: () => ({
-        addressConnection: mockAddressConnection,
-      }),
-    })
-  })
-  it("renders radio buttons with addresses", () => {
-    const radios = wrapper.find("Radio")
-
-    expect(radios.length).toBe(3)
-    expect(radios.map(radio => radio.props().value)).toEqual([
-      "0",
-      "1",
-      "NEW_ADDRESS",
-    ])
-    expect(radios.map(radio => radio.props().selected)).toEqual([
-      false,
-      true,
-      false,
-    ])
-    expect(radios.map(radio => radio.text())).toEqual([
-      "Test Name1 Main StMadrid, Spain, 28001555-555-5555Edit",
-      "Test Name401 BroadwayFloor 25New York, NY, USA, 10013422-424-4242Edit",
-      "Add a new shipping address",
-    ])
-  })
 })

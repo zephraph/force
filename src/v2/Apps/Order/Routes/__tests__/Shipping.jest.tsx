@@ -621,6 +621,15 @@ describe("Shipping", () => {
       `)
     })
     describe("editing address", () => {
+      it("opens modal with correct title and action properties", async () => {
+        await page.find(`[data-test="edit-address"]`).first().simulate("click")
+        expect(page.find(ShippingRoute).state().editAddressIndex).toBe(0)
+        expect(page.find("AddressModal").props().modalDetails).toStrictEqual({
+          addressModalTitle: "Edit address",
+          addressModalAction: "editUserAddress",
+        })
+      })
+
       it("opens modal with current address values", async () => {
         expect(page.find(ShippingRoute).state().editAddressIndex).toBe(-1)
         await page.find(`[data-test="edit-address"]`).first().simulate("click")
