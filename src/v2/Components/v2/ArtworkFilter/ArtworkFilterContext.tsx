@@ -22,11 +22,11 @@ export const initialArtworkFilterState: ArtworkFilters = {
   locationCities: [],
   artistNationalities: [],
   materialsTerms: [],
+  height: "*-*",
+  width: "*-*",
 
   // TODO: Remove these unneeded default props
-  // height: "*-*",
   // price_range: "*-*",
-  // width: "*-*",
 }
 
 /**
