@@ -67,10 +67,16 @@ export const partnerRoutes: RouteConfig[] = [
           ArticlesRoute.preload()
         },
         ignoreScrollBehavior: true,
+        prepareVariables: (params, { location }) => {
+          return {
+            ...params,
+            page: location.query.page,
+          }
+        },
         query: graphql`
-          query partnerRoutes_ArticlesQuery($partnerId: String!) {
+          query partnerRoutes_ArticlesQuery($partnerId: String!, $page: Int) {
             partner(id: $partnerId) @principalField {
-              ...Articles_partner
+              ...Articles_partner @arguments(page: $page)
             }
           }
         `,
