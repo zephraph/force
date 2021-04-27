@@ -8280,6 +8280,7 @@ type Partner implements Node {
     before: String
     first: Int
     last: Int
+    page: Int
     sort: ArticleSorts
   ): ArticleConnection
 
