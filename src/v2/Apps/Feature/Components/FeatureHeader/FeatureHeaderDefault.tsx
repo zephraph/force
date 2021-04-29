@@ -4,6 +4,7 @@ import { Flex, HTML, Join, Spacer, Text, color } from "@artsy/palette"
 import { createFragmentContainer, graphql } from "react-relay"
 import { FeatureHeaderDefault_feature } from "v2/__generated__/FeatureHeaderDefault_feature.graphql"
 import { NAV_BAR_HEIGHT } from "v2/Components/NavBar"
+import { SmartPicture } from "v2/Components/SmartPicture"
 
 const Container = styled(Flex)`
   width: 100%;
@@ -32,12 +33,6 @@ const Meta = styled(Flex)`
   justify-content: center;
 `
 
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`
-
 export interface FeatureHeaderDefaultProps {
   feature: FeatureHeaderDefault_feature
 }
@@ -52,12 +47,7 @@ export const FeatureHeaderDefault: React.FC<FeatureHeaderDefaultProps> = ({
     >
       {image && (
         <Figure height={["50vh", "auto"]}>
-          <picture>
-            <source srcSet={image.sm.srcSet} media="(max-width: 400px)" />
-            <source srcSet={image.md.srcSet} media="(max-width: 1200px)" />
-            <source srcSet={image.lg.srcSet} media="(min-width: 1200px)" />
-            <Image src={image.sm.src} alt={name} loading="lazy" />
-          </picture>
+          <SmartPicture alt={name} image={image} boundaries={[400, 1200]} />
         </Figure>
       )}
 
