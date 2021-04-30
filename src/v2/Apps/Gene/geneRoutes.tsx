@@ -29,6 +29,8 @@ export const geneRoutes: RouteConfig[] = [
           return GeneShowRoute.preload()
         },
         prepareVariables: ({ slug }, props) => {
+          const aggregations = ["TOTAL", "ARTIST"]
+
           const urlFilterState = props.location ? props.location.query : {}
 
           const filters = {
@@ -37,7 +39,14 @@ export const geneRoutes: RouteConfig[] = [
           }
 
           return {
-            input: allowedFilters(filters),
+            aggregations,
+            input: {
+              ...allowedFilters(filters),
+              aggregations: !!props.context.user
+                ? ["FOLLOWED_ARTISTS"]
+                : undefined,
+            },
+            shouldFetchCounts: !!props.context.user,
             slug,
           }
         },
@@ -45,9 +54,16 @@ export const geneRoutes: RouteConfig[] = [
           query geneRoutes_GeneShowQuery(
             $slug: String!
             $input: FilterArtworksInput
+            $aggregations: [ArtworkAggregation]
+            $shouldFetchCounts: Boolean!
           ) {
             gene(id: $slug) @principalField {
-              ...GeneShow_gene @arguments(input: $input)
+              ...GeneShow_gene
+                @arguments(
+                  input: $input
+                  aggregations: $aggregations
+                  shouldFetchCounts: $shouldFetchCounts
+                )
             }
           }
         `,
