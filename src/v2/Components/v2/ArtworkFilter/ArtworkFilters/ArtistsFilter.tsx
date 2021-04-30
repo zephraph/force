@@ -1,4 +1,4 @@
-import { Checkbox, Flex } from "@artsy/palette"
+import { Checkbox, Flex, useThemeConfig } from "@artsy/palette"
 import { sortBy } from "lodash"
 import React, { FC, useEffect, useState } from "react"
 import { useArtworkFilterContext } from "../ArtworkFilterContext"
@@ -46,6 +46,11 @@ const ArtistItem: React.FC<{
     setFilter("artistIDs", artistIDs)
   }
 
+  const tokens = useThemeConfig({
+    v2: { my: 0.5 },
+    v3: { my: 1 },
+  })
+
   const isFollowedArtist = followedArtistSlugs.includes(slug)
 
   return (
@@ -57,6 +62,7 @@ const ArtistItem: React.FC<{
       onSelect={selected => {
         return toggleArtistSelection(selected, slug)
       }}
+      my={tokens.my}
     >
       {name}
     </Checkbox>
@@ -74,6 +80,11 @@ export const ArtistsFilter: FC<ArtistsFilterProps> = ({
 
   const [followedArtists, setFollowedArtists] = useState<FollowedArtistList>([])
   const followedArtistSlugs = followedArtists.map(({ slug }) => slug)
+
+  const tokens = useThemeConfig({
+    v2: { my: 0.5 },
+    v3: { my: 1 },
+  })
 
   useEffect(() => {
     if (relayEnvironment && user) {
@@ -109,6 +120,7 @@ export const ArtistsFilter: FC<ArtistsFilterProps> = ({
           onSelect={value =>
             filterContext.setFilter("includeArtworksByFollowedArtists", value)
           }
+          my={tokens.my}
         >
           Artists I follow ({followedArtistArtworkCount})
         </Checkbox>
