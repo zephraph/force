@@ -79,9 +79,9 @@ export const BuyerGuaranteeIndex: React.FC<BuyerGuaranteeIndexProps> = ({
       </Button>
     </RouterLink>
   )
-
   return (
-    <FullBleed>
+    <>
+            {/* <FullBleed> */}
       {/* Header Block */}
       <Flex justifyContent="center" alignContent="center">
         <Image
@@ -114,7 +114,6 @@ export const BuyerGuaranteeIndex: React.FC<BuyerGuaranteeIndexProps> = ({
             ". Courtesy of the artist and Kenise Barnes Fine Art. "}
         </Text>
       </Flex>
-
       {/* First Row */}
       <Flex justifyContent="center" flexDirection="column">
         <Flex justifyContent="center" mx={["10%", "25%"]} textAlign="center">
@@ -253,7 +252,7 @@ export const BuyerGuaranteeIndex: React.FC<BuyerGuaranteeIndexProps> = ({
           </Flex>
         </Flex>
       </Flex>
-
+      {/* </FullBleed> */}
       {/*  Artsy Guarantee Sections desktop */}
       <Media greaterThanOrEqual="sm">
         <CSSGrid gridTemplateColumns="repeat(2, 1fr)">
@@ -718,7 +717,7 @@ export const BuyerGuaranteeIndex: React.FC<BuyerGuaranteeIndexProps> = ({
           {learnMoreButton("200px")}
         </Flex>
       </Media>
-    </FullBleed>
+    </>
   )
 }
 
@@ -788,8 +787,8 @@ const PoweredByStripeIconContainer = styled.svg<{
   height: string
   width: string
 }>`
-  height: ${props => props.height}};
-  width: ${props => props.width}};
+  height: ${props => props.height};
+  width: ${props => props.width};
 `
 
 const PoweredByStripeIcon = ({ h, w }) => (
