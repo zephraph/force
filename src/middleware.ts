@@ -21,6 +21,7 @@ import timeout from "connect-timeout"
 import bodyParser from "body-parser"
 import RavenServer from "raven"
 import config from "./config"
+import httpContext from "express-http-context"
 
 import { morganMiddleware } from "./lib/middleware/morgan"
 import { ensureSslMiddleware } from "./lib/middleware/ensureSsl"
@@ -29,7 +30,7 @@ import { ipFilter } from "./lib/middleware/ipFilter"
 import { sessionMiddleware } from "./lib/middleware/session"
 import { assetMiddleware } from "./lib/middleware/asset"
 import { csrfTokenMiddleware } from "./lib/middleware/csrfToken"
-import { sharifyLocalsMiddleware } from "./lib/middleware/sharifyLocals"
+import { bootstrapSharifyAndContextLocalsMiddleware } from "./lib/middleware/bootstrapSharifyAndContextLocalsMiddleware"
 import { userRequiredMiddleware } from "lib/middleware/userRequiredMiddleware"
 import { backboneErrorHandlerMiddleware } from "./lib/middleware/backboneErrorHandler"
 import { downcaseMiddleware } from "./lib/middleware/downcase"
@@ -77,16 +78,6 @@ export function initializeMiddleware(app) {
     app.use(RavenServer.requestHandler())
   }
 
-  // Inject sharify data and asset middleware before any app code so that when
-  // crashing errors occur we'll at least get a 500 error page.
-  // Attach sharify object to `locals` because almost all other middleware
-  // relies on it existing.
-  app.use(sharify)
-
-  // Static asset routing, required for all legacy code and must come early
-  // because `local.asset` is required to render the error page.
-  app.use(assetMiddleware())
-
   // Cookie parser
   app.use(cookieParser())
 
@@ -96,8 +87,8 @@ export function initializeMiddleware(app) {
   // Ensure basic security settings
   applySecurityMiddleware(app)
 
-  // Sharify locals
-  app.use(sharifyLocalsMiddleware)
+  // Sharify and express-http-context locals
+  app.use(bootstrapSharifyAndContextLocalsMiddleware)
 
   app.use(proxyReflectionMiddleware)
 
@@ -192,6 +183,18 @@ function applySecurityMiddleware(app) {
   // JSON Body Parser is required for getting the `_csurf` token for passport.
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
+
+  app.use(httpContext.middleware)
+
+  // Inject sharify data and asset middleware before any app code so that when
+  // crashing errors occur we'll at least get a 500 error page.
+  // Attach sharify object to `locals` because almost all other middleware
+  // relies on it existing.
+  app.use(sharify)
+
+  // Static asset routing, required for all legacy code and must come early
+  // because `local.asset` is required to render the error page.
+  app.use(assetMiddleware())
 
   // Passport middleware for authentication.
   app.use(

@@ -1,6 +1,6 @@
 import { trackExperimentViewed } from "v2/Artsy/Analytics/trackExperimentViewed"
 import { ActionTypes } from "farce"
-import { data as sd } from "sharify"
+import { data as sd, GlobalData } from "sharify"
 import { get } from "v2/Utils/get"
 import { match } from "path-to-regexp"
 
@@ -13,7 +13,7 @@ import { match } from "path-to-regexp"
  */
 
 interface ABTestRouteMap {
-  abTest: string
+  abTest: keyof GlobalData
   routes: string[]
 }
 

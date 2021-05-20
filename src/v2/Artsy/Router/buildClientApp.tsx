@@ -78,7 +78,7 @@ export function buildClientApp(config: RouterConfig): Promise<Resolve> {
           ],
           abTestRouteMap: [
             {
-              abTest: "decayed_merch_v2",
+              abTest: "DECAYED_MERCH_V2",
               routes: ["/artist/:artistID/works-for-sale"],
             },
           ],

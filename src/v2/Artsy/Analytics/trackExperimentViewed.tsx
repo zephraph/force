@@ -1,9 +1,13 @@
+import { GlobalData } from "sharify"
 import * as Schema from "v2/Artsy/Analytics"
-import { data as sd } from "sharify"
+import { getENV } from "v2/Utils/getENV"
 
-export const trackExperimentViewed = (name: string, trackingData = {}) => {
+export const trackExperimentViewed = (
+  name: keyof GlobalData,
+  trackingData = {}
+) => {
   if (typeof window.analytics !== "undefined") {
-    const variation = sd[name.toUpperCase()]
+    const variation = getENV(name)
     if (!Boolean(variation)) {
       return console.warn(`experiment value for ${name} not found, skipping`)
     }

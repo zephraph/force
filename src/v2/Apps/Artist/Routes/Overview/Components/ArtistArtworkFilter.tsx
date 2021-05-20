@@ -7,7 +7,7 @@ import { Match, RouterState, withRouter } from "found"
 import React from "react"
 import { RelayRefetchProp, createRefetchContainer, graphql } from "react-relay"
 import { ZeroState } from "./ZeroState"
-import { data as sd } from "sharify" // TODO: Remove after AB test
+import { getENV } from "v2/Utils/getENV"
 
 interface ArtistArtworkFilterProps {
   artist: ArtistArtworkFilter_artist
@@ -35,7 +35,7 @@ const ArtistArtworkFilter: React.FC<ArtistArtworkFilterProps> = props => {
   ]
 
   const defaultSortValue =
-    sd["DECAYED_MERCH_V2"] === "experiment"
+    getENV("DECAYED_MERCH_V2") === "experiment"
       ? "-decayed_merch_v2"
       : "-decayed_merch"
 

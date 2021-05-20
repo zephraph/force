@@ -1,5 +1,5 @@
 import { ArtworkFilters } from "../ArtworkFilterContext"
-import { data as sd } from "sharify" // TODO: Remove after AB test
+import { getENV } from "v2/Utils/getENV"
 
 export const isDefaultFilter: (
   name: keyof ArtworkFilters,
@@ -10,7 +10,7 @@ export const isDefaultFilter: (
   }
 
   const defaultSort =
-    sd["DECAYED_MERCH_V2"] === "experiment"
+    getENV("DECAYED_MERCH_V2") === "experiment"
       ? "-decayed_merch_v2"
       : "-decayed_merch"
 

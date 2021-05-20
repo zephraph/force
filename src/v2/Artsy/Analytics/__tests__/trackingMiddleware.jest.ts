@@ -6,7 +6,7 @@ declare const global: any
 jest.mock("sharify", () => ({
   data: {
     APP_URL: "http://testing.com",
-    ALL_ARTWORKS_AS_CATS: "experiment",
+    DECAYED_MERCH_V2: "experiment",
   },
 }))
 
@@ -151,7 +151,7 @@ describe("trackingMiddleware", () => {
     it("triggers for a given route", () => {
       trackingMiddleware({
         abTestRouteMap: [
-          { abTest: "all_artworks_as_cats", routes: ["/artwork(.*)"] },
+          { abTest: "DECAYED_MERCH_V2", routes: ["/artwork(.*)"] },
         ],
       })(store)(noop)({
         type: ActionTypes.UPDATE_LOCATION,
@@ -162,8 +162,8 @@ describe("trackingMiddleware", () => {
       expect(global.analytics.track).toBeCalledWith(
         "Experiment Viewed",
         {
-          experiment_id: "all_artworks_as_cats",
-          experiment_name: "all_artworks_as_cats",
+          experiment_id: "DECAYED_MERCH_V2",
+          experiment_name: "DECAYED_MERCH_V2",
           variation_id: "experiment",
           variation_name: "experiment",
           nonInteraction: 1,
