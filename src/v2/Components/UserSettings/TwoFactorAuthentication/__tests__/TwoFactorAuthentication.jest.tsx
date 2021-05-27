@@ -5,6 +5,7 @@ import { createTestEnv } from "v2/DevTools/createTestEnv"
 
 import { TwoFactorAuthenticationQueryResponse } from "v2/__generated__/TwoFactorAuthenticationQuery.graphql"
 import { createMockFetchQuery } from "v2/DevTools"
+import { mockLocation } from "v2/DevTools/mockLocation"
 import { TwoFactorAuthenticationRefetchContainer } from "../"
 import {
   AppEnabledWithBackupCodesQueryResponse,
@@ -85,6 +86,19 @@ describe("TwoFactorAuthentication ", () => {
       env.mutations.useResultsOnce(EnableAppSecondFactorMutationSuccessResponse)
 
       await page.clickAppSetupButton()
+    })
+
+    describe("AppSecondFactor Redirect", () => {
+      beforeEach(() => {
+        mockLocation({
+          search: '?after_update=https%3A%2F%2Fcms-staging.artsy.net'
+        })
+      })
+
+      it.only("shows redirect modal after set up, if after_update param present", async () => {
+        const env = setupTestEnv()
+        const page = await env.buildPage()
+      })
     })
   })
 
