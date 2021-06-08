@@ -87,6 +87,7 @@ export const NavBar: React.FC = track(
   return (
     <>
       <NavBarSkipLink />
+
       <header>
         <NavBarContainer as="nav">
           <NavBarTier height={NAV_BAR_TOP_TIER_HEIGHT}>

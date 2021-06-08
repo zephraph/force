@@ -1,5 +1,4 @@
 import { artistRoutes } from "v2/Apps/Artist/artistRoutes"
-import { artist2Routes } from "v2/Apps/Artist2/artist2Routes"
 import { artistSeriesRoutes } from "v2/Apps/ArtistSeries/artistSeriesRoutes"
 import { artistsRoutes } from "v2/Apps/Artists/artistsRoutes"
 import { artworkRoutes } from "v2/Apps/Artwork/artworkRoutes"
@@ -26,20 +25,10 @@ import { showRoutes } from "v2/Apps/Show/showRoutes"
 import { viewingRoomRoutes } from "v2/Apps/ViewingRoom/viewingRoomRoutes"
 import { tagRoutes } from "./Apps/Tag/tagRoutes"
 
-/**
- * **WARNING***
- *
- * When adding a new route to this file, be sure to add route to
- * `src/desktop/lib/webpackPublicPath.ts` as well. This is temporary until the
- * asset paths have stabilized.
- */
 export function getAppRoutes(): AppRouteConfig[] {
   return buildAppRoutes([
     {
       routes: artistRoutes,
-    },
-    {
-      routes: artist2Routes,
     },
     {
       routes: artistsRoutes,

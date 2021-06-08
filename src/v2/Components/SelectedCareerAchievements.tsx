@@ -1,16 +1,23 @@
-import { BorderBox, Flex, Spacer, useThemeConfig } from "@artsy/palette"
-import { SelectedCareerAchievements_artist } from "v2/__generated__/SelectedCareerAchievements_artist.graphql"
 import {
-  hasSections,
-  highestCategory,
-} from "v2/Apps/Artist/Components/MarketInsights/MarketInsights"
+  BorderBox,
+  Box,
+  Flex,
+  Spacer,
+  useThemeConfig,
+  Text,
+} from "@artsy/palette"
+import { SelectedCareerAchievements_artist } from "v2/__generated__/SelectedCareerAchievements_artist.graphql"
 
 import { ArtistInsight } from "v2/Components/ArtistInsight"
 import { ArtistInsightsModal } from "v2/Components/ArtistInsightsModal"
 import React from "react"
 import { createFragmentContainer, graphql } from "react-relay"
+import { SpaceProps } from "styled-system"
+import { RouterLink } from "v2/Artsy/Router/RouterLink"
+import { ChevronButton } from "./ChevronButton"
+import { highestCategory, hasSections } from "./ArtistMarketInsights"
 
-export interface SelectedCareerAchievementsProps {
+export interface SelectedCareerAchievementsProps extends SpaceProps {
   artist: SelectedCareerAchievements_artist
   themeVersion?: string
   onlyCareerHighlights?: boolean
@@ -139,20 +146,31 @@ export class SelectedCareerAchievements extends React.Component<
 
     // V3 theme
     return (
-      <>
+      <Box {...this.props}>
         {this.props.onlyCareerHighlights ? (
-          <Flex flexWrap="wrap" pr={2}>
-            {this.props.artist?.insights?.map(insight => {
-              return this.renderInsight(insight)
-            })}
-          </Flex>
+          <>
+            <Text variant="lg" mb={4}>
+              Career Highlights
+            </Text>
+            <Flex flexWrap="wrap" pr={2}>
+              {this.props.artist?.insights?.map(insight => {
+                return this.renderInsight(insight)
+              })}
+            </Flex>
+
+            <Spacer my={2} />
+
+            <RouterLink to={`${this.props.artist.slug}/cv`}>
+              <ChevronButton>See all past shows and fair booths</ChevronButton>
+            </RouterLink>
+          </>
         ) : (
           <Flex flexDirection="column">
             {this.renderGalleryRepresentation()}
             {this.renderAuctionHighlight()}
           </Flex>
         )}
-      </>
+      </Box>
     )
   }
 }
@@ -217,6 +235,7 @@ export const SelectedCareerAchievementsFragmentContainer = createFragmentContain
             }
           }
         }
+        slug
       }
     `,
   }
