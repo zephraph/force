@@ -1,7 +1,6 @@
 import {
   Button,
   Clickable,
-  Flex,
   Link,
   Modal,
   QuestionCircleIcon,
@@ -9,8 +8,8 @@ import {
   Text,
   Tooltip,
 } from "@artsy/palette"
-import { track } from "v2/Artsy/Analytics"
-import * as Schema from "v2/Artsy/Analytics/Schema"
+import { track } from "v2/System/Analytics"
+import * as Schema from "v2/System/Analytics/Schema"
 import React from "react"
 import { data as sd } from "sharify"
 import Events from "v2/Utils/Events"
@@ -48,16 +47,14 @@ export class PricingContextModal extends React.Component<State> {
   render() {
     return (
       <>
-        <Tooltip width={90} size="sm" content="Learn more">
-          <Flex alignItems="center">
-            <Clickable
-              onClick={this.openModal.bind(this)}
-              ml={1}
-              style={{ lineHeight: 0 }}
-            >
-              <QuestionCircleIcon />
-            </Clickable>
-          </Flex>
+        <Tooltip width={null} size="sm" content="Learn more" placement="top">
+          <Clickable
+            onClick={this.openModal.bind(this)}
+            ml={1}
+            style={{ lineHeight: 0 }}
+          >
+            <QuestionCircleIcon aria-hidden title="" />
+          </Clickable>
         </Tooltip>
 
         <Modal

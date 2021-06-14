@@ -14,7 +14,7 @@ import React from "react"
 import { createFragmentContainer, graphql } from "react-relay"
 import { ArtworkSidebarBidAction_artwork } from "v2/__generated__/ArtworkSidebarBidAction_artwork.graphql"
 import { ArtworkSidebarBidAction_me } from "v2/__generated__/ArtworkSidebarBidAction_me.graphql"
-import * as Schema from "v2/Artsy/Analytics/Schema"
+import * as Schema from "v2/System/Analytics/Schema"
 import track from "react-tracking"
 import { getENV } from "v2/Utils/getENV"
 import { bidderQualifications } from "v2/Utils/identityVerificationRequirements"
@@ -296,14 +296,17 @@ export class ArtworkSidebarBidAction extends React.Component<
                 Place max bid
               </Text>
 
-              <Tooltip content="Set the maximum amount you would like Artsy to bid up to on your behalf">
+              <Tooltip
+                content="Set the maximum amount you would like Artsy to bid up to on your behalf"
+                placement="top"
+              >
                 <Box
                   style={{
                     // Vertically center
                     lineHeight: 0,
                   }}
                 >
-                  <HelpIcon />
+                  <HelpIcon aria-hidden title="" />
                 </Box>
               </Tooltip>
             </Flex>
