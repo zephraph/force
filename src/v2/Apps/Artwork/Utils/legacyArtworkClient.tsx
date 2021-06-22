@@ -82,6 +82,10 @@ export const legacyArtworkClient = () => {
     }
   )
 
+  mediator.on("openOrdersContactArtsyModal", (options: ArtworkEventOptions) => {
+    openInquireableModal(options.artworkId, { ask_specialist: true })
+  })
+
   mediator.on("openCollectorFAQModal", () => {
     openMultiPageModal("collector-faqs")
   })
